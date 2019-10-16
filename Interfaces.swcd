@@ -1,0 +1,38 @@
+package ApplicationLayer.Interface
+
+import ArcCore.Platform.BaseTypes.*
+
+int impl IntImpl extends uint8
+int app Int
+
+boolean impl SwitchStatusImpl extends ^boolean
+boolean app SwitchStatus
+
+boolean impl LEDStatusImpl extends ^boolean
+boolean app LEDStatus
+
+boolean impl IntensityStatusImpl extends float32
+boolean app IntensityStatus
+
+dataTypeMappingSet TypeMappings {
+	map IntImpl Int
+	map SwitchStatusImpl SwitchStatus
+	map LEDStatusImpl LEDStatus
+	map IntensityStatusImpl IntensityStatus
+}
+
+interface senderReceiver DataInterface {
+	data Int message
+}
+
+interface senderReceiver swtInterface {
+	data SwitchStatus status
+}
+
+interface senderReceiver LEDStsInterface {
+	data LEDStatus status
+}
+
+interface senderReceiver IntStsInterface {
+	data IntensityStatus status
+}

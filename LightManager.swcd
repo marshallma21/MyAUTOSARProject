@@ -1,0 +1,43 @@
+package ApplicationLayer.ApplicationPackage
+
+import ApplicationLayer.Interface.*
+import LightManager.LightManagerBehaviour
+
+
+component application LightManager {
+	ports {
+		receiver IntReqCAN requires DataInterface
+		sender LEDStsCAN provides DataInterface
+		
+		receiver BtnPressed requires swtInterface
+		
+		sender BlueLiSts provides LEDStsInterface
+		sender RedLiIntSts provides IntStsInterface
+	}
+}
+
+internalBehavior LightManagerBehaviour for LightManager {
+	dataTypeMappings {
+		TypeMappings
+	}
+	
+	runnable TimeToggleLED [0.0] {
+		dataReadAccess BtnPressed.status
+		dataWriteAccess BlueLiSts.status
+		dataWriteAccess LEDStsCAN.message
+		
+		timingEvent 0.01 as TimeToggleLEDEvent
+	}
+	
+	runnable RedLiDimming [0.0] {
+		dataReadAccess IntReqCAN.message
+		dataWriteAccess RedLiIntSts.status
+		
+		timingEvent 0.01 as RedLiDimmingEvent
+	}
+}
+
+implementation LightManagerImpl for LightManagerBehaviour {
+	language c
+	codeDescriptor "src"
+}
