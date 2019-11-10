@@ -1,0 +1,32 @@
+package ApplicationLayer.CompositionPackage
+
+import ApplicationLayer.ApplicationPackage.*
+import BSWConfiguration.Services.IoHwAb.IoHwAb
+
+composition RootComposition {
+	prototype PotSensor PotSensorInstance
+	prototype SwtSensor SwtSensorInstance
+	prototype IntController RedLiIntControllerInstance
+	prototype LEDActuator BlueLiActuatorInstance
+	prototype LightManager LightManagerInstance
+	
+	prototype IoHwAb IoHwAbInstance
+	
+	ports {
+		requires LightManagerInstance.IntReq IntReqCAN
+		provides LightManagerInstance.LEDSts LEDStsCAN
+		provides PotSensorInstance.POTSts POTStsCAN
+	}
+	
+	connect SwtSensorInstance.SwtSts to LightManagerInstance.BtnPressed
+	connect LightManagerInstance.BlueLiSts to BlueLiActuatorInstance.LightSts
+	connect LightManagerInstance.RedLiIntSts to RedLiIntControllerInstance.IntSts
+	
+	connect IoHwAbInstance.Digital_Swt to SwtSensorInstance.SwtSignal
+	connect IoHwAbInstance.Digital_BlueLED to BlueLiActuatorInstance.LEDSignal
+	connect IoHwAbInstance.Pwm_RedLEDDuty to RedLiIntControllerInstance.DutySignal
+	connect IoHwAbInstance.Analog_POT to PotSensorInstance.POTSignal
+	
+	
+
+}

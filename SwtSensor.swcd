@@ -1,0 +1,35 @@
+package ApplicationLayer.ApplicationPackage
+
+import ApplicationLayer.Interface.*
+import ArcCore.Services.IoHwAb.*
+
+import SwtSensor.SwtSensorBehavior
+
+component sensorActuator SwtSensor {
+	ports {
+		// DigitalServiceRead is from IoHwAb
+		client SwtSignal requires DigitalServiceRead
+		sender SwtSts provides swtInterface
+	}
+}
+
+internalBehavior SwtSensorBehavior for SwtSensor {
+	dataTypeMappings {
+		TypeMappings
+	}
+	
+	runnable SwtSensorMain[0.0] {
+		symbol "SwtSensorMain"
+		
+		dataWriteAccess SwtSts.status
+		serverCallPoint synchronous SwtSignal.Read
+		
+		timingEvent 0.01 as SwtSensorMainEvent
+	}
+}
+
+implementation SwtSensorImpl for SwtSensorBehavior {
+	language c
+	codeDescriptor "src"
+}
+

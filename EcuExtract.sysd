@@ -1,0 +1,32 @@
+package ApplicationLayer.EcuExtract
+
+import ApplicationLayer.CompositionPackage.RootComposition
+import ApplicationLayer.CompositionPackage.RootComposition.*
+import ApplicationLayer.ApplicationPackage.*
+
+import BSWConfiguration.Services.IoHwAb.IoHwAbImpl
+
+import ApplicationLayer.Signals.*
+
+system MyAUTOSAREcuExtract {
+	rootComposition RootComposition
+	
+	mapping as ImplementationMappings {
+		implMap PotSensorImpl to PotSensorInstance
+		implMap SwtSensorImpl to SwtSensorInstance
+		implMap IntControllerImpl to RedLiIntControllerInstance
+		implMap LEDActuatorImpl to BlueLiActuatorInstance
+		implMap LightManagerImpl to LightManagerInstance
+		
+		implMap IoHwAbImpl to IoHwAbInstance
+		
+	}
+	
+	mapping as SignalMappings {
+		signalMap outerPort POTStsCAN.message to PotValue
+		signalMap outerPort LEDStsCAN.message to LEDSts
+		
+		signalMap outerPort IntReqCAN.message to IntReq
+	}
+ 
+}

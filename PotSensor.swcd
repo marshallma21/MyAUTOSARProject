@@ -1,0 +1,31 @@
+package ApplicationLayer.ApplicationPackage
+
+import ApplicationLayer.Interface.*
+import ArcCore.Services.IoHwAb.*
+
+import PotSensor.PotSensorBehavior
+
+component sensorActuator PotSensor {
+	ports {
+		// AnalogServiceRead is from IoHwAb
+		client POTSignal requires AnalogServiceRead
+		sender POTSts provides DataInterface
+	}
+}
+
+internalBehavior PotSensorBehavior for PotSensor {
+	
+	runnable PotSensorMain[0.0] {
+		symbol "PotSensorMain"
+		
+		dataWriteAccess POTSts.message
+		serverCallPoint synchronous POTSignal.Read
+		
+		timingEvent 0.01 as PotSensorMainEvent
+	}
+}
+
+implementation PotSensorImpl for PotSensorBehavior {
+	language c
+	codeDescriptor "src"
+}

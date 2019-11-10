@@ -1,0 +1,31 @@
+package ApplicationLayer.ApplicationPackage
+
+import ApplicationLayer.Interface.*
+import ArcCore.Services.IoHwAb.*
+
+import LEDActuator.LEDActuatorBehavior
+
+component sensorActuator LEDActuator {
+	ports {
+		// DigitalServiceWrite is from IoHwAb
+		client LEDSignal requires DigitalServiceWrite
+		receiver LightSts requires LEDStsInterface
+	}
+}
+
+internalBehavior LEDActuatorBehavior for LEDActuator {
+
+	runnable LEDActuatorMain[0.0] {
+		symbol "LEDActuatorMain"
+		
+		dataReadAccess LightSts.status
+		serverCallPoint synchronous LEDSignal.Write
+		
+		timingEvent 0.01 as LEDActuatorMainEvent
+	}
+}
+
+implementation LEDActuatorImpl for LEDActuatorBehavior {
+	language c
+	codeDescriptor "src"
+}

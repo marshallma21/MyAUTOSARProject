@@ -1,0 +1,34 @@
+package ApplicationLayer.ApplicationPackage
+
+import ApplicationLayer.Interface.*
+import ArcCore.Services.IoHwAb.*
+
+import IntController.IntControllerBehavior
+
+component sensorActuator IntController {
+	ports {
+		// PwmServiceSetDuty is from IoHwAb
+		client DutySignal requires PwmServiceSetDuty
+		receiver IntSts requires IntStsInterface
+	}
+}
+
+internalBehavior IntControllerBehavior for IntController {
+
+	runnable IntControllerMain[0.0] {
+		symbol "IntControllerMain"
+		
+		dataReadAccess IntSts.status
+		serverCallPoint synchronous DutySignal.Set
+		
+		timingEvent 0.01 as IntControllerMainEvent
+	}
+}
+
+implementation IntControllerImpl for IntControllerBehavior {
+	language c
+	codeDescriptor "src"
+}
+
+
+
