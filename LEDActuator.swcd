@@ -15,6 +15,10 @@ component sensorActuator LEDActuator {
 
 internalBehavior LEDActuatorBehavior for LEDActuator {
 
+	dataTypeMappings {
+		TypeMappings
+	}
+
 	runnable LEDActuatorMain[0.0] {
 		symbol "LEDActuatorMain"
 		

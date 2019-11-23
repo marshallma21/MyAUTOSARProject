@@ -14,7 +14,12 @@ component sensorActuator IntController {
 }
 
 internalBehavior IntControllerBehavior for IntController {
-
+	
+	//dataTypeMapping is imported, but it needs to be explicitly referred for RTE generation
+	dataTypeMappings {
+		TypeMappings
+	}
+	
 	runnable IntControllerMain[0.0] {
 		symbol "IntControllerMain"
 		

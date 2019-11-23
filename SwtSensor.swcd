@@ -14,6 +14,8 @@ component sensorActuator SwtSensor {
 }
 
 internalBehavior SwtSensorBehavior for SwtSensor {
+	
+	//dataTypeMapping is imported, but it needs to be explicitly referred for RTE generation
 	dataTypeMappings {
 		TypeMappings
 	}
